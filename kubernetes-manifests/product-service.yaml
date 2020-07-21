@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-service
+  namespace: service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: product-service
+  template:
+    metadata:
+      labels:
+        app: product-service
+    spec:
+      containers:
+      - name: icommerce
+        image: icommerce/product-service
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+        env:
+        - name: PORT
+          value: "8080"
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: credentials
+              key: MONGO_USERNAME
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: credentials
+              key: MONGO_PASSWORD
+        - name: DB_HOST
+          value: database.database.svc.cluster.local
+        - name: DB_PORT
+          value: "27017"
+        - name: DB_DATABASE
+          value: icommerce
+        - name: KONG_PROXY_HOST
+          value: kong-proxy.kong.svc.cluster.local
+        - name: KONG_PROXY_PORT
+          value: "80"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-service
+  namespace: service
+spec:
+  selector:
+    app: product-service
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: service
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: credentials
+  namespace: service
+type: Opaque
+data:
+  MONGO_USERNAME: aWNvbW1lcmNl
+  MONGO_PASSWORD: cGFzc3dvcmQ=

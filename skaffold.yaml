@@ -1,0 +1,18 @@
+apiVersion: skaffold/v2beta5
+kind: Config
+metadata:
+  name: icommerce-project
+build:
+  artifacts:
+  - image: icommerce/product-service
+    context: services/product
+  - image: icommerce/query-service
+    context: services/query
+deploy:
+  kubectl:
+    manifests:
+    - kubernetes-manifests/kong.yaml
+    - kubernetes-manifests/mongodb.yaml
+    - kubernetes-manifests/service.yaml
+    - kubernetes-manifests/product-service.yaml
+    - kubernetes-manifests/query-service.yaml

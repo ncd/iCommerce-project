@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: query-service
+  namespace: service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: query-service
+  template:
+    metadata:
+      labels:
+        app: query-service
+    spec:
+      containers:
+      - name: icommerce
+        image: icommerce/query-service
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8081
+        env:
+        - name: PORT
+          value: "8081"
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: credentials
+              key: MONGO_USERNAME
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: credentials
+              key: MONGO_PASSWORD
+        - name: DB_HOST
+          value: database.database.svc.cluster.local
+        - name: DB_PORT
+          value: "27017"
+        - name: DB_DATABASE
+          value: icommerce
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: query-service
+  namespace: service
+spec:
+  selector:
+    app: query-service
+  ports:
+  - name: http
+    port: 8081
+    targetPort: 8081
