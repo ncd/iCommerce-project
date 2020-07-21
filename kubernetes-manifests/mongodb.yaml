@@ -1,0 +1,273 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: database
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: credentials
+  namespace: database
+type: Opaque
+data:
+  MONGO_ROOT_USERNAME: YWRtaW4=
+  MONGO_ROOT_PASSWORD: cGFzc3dvcmQ=
+  MONGO_USERS_LIST: aWNvbW1lcmNlOmRiQWRtaW4scmVhZFdyaXRlOnBhc3N3b3JkCg==
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongodb-standalone
+  namespace: database
+data:
+  mongo.conf: |
+    storage:
+      dbPath: /data/db
+  ensure-users.js: |
+    const targetDbStr = 'icommerce';
+    const rootUser = cat('/etc/credentials/admin/MONGO_ROOT_USERNAME');
+    const rootPass = cat('/etc/credentials/admin/MONGO_ROOT_PASSWORD');
+    const usersStr = cat('/etc/credentials/MONGO_USERS_LIST');
+
+    // auth against admin
+    const adminDb = db.getSiblingDB('admin');
+    adminDb.auth(rootUser, rootPass);
+    print('Successfully authenticated admin user');
+
+    // we'll create the users here
+    const targetDb = db.getSiblingDB(targetDbStr);
+
+    // user-defined roles should be stored in the admin db
+    const customRoles = adminDb
+      .getRoles({rolesInfo: 1, showBuiltinRoles: false})
+      .map(role => role.role)
+      .filter(Boolean);
+
+    // parse the list of users, and create each user as needed
+    usersStr
+      .trim()
+      .split(';')
+      .map(s => s.split(':'))
+      .forEach(user => {
+        const username = user[0];
+        const rolesStr = user[1];
+        const password = user[2];
+
+        if (!rolesStr || !password) {
+          return;
+        }
+
+        const roles = rolesStr.split(',');
+        const userDoc = {
+          user: username,
+          pwd: password,
+        };
+
+        userDoc.roles = roles.map(role => {
+          if (!~customRoles.indexOf(role)) {
+            // is this a user defined role?
+            return role; // no, it is built-in, just use the role name
+          }
+          return {role: role, db: 'admin'}; // yes, user-defined, specify the long format
+        });
+
+        try {
+          targetDb.createUser(userDoc);
+        } catch (err) {
+          if (!~err.message.toLowerCase().indexOf('duplicate')) {
+            // if not a duplicate user
+            throw err; // rethrow
+          }
+        }
+      });
+      var products =
+      [
+        {
+          name: "Macbook air 2018",
+          categories: ["Laptop", "Electronic", "Apple"],
+          description: "Macbook new design 2018",
+          rating: 5,
+          originalPrice: 50000,
+          currentPrice: 30000,
+          brand: "Apple",
+          seller: "FPT"
+        },
+        {
+          name: "HP Notebook 2020",
+          categories: ["Laptop", "Electronic", "Device"],
+          description: "Brand new device notebook from HP",
+          rating: 4.5,
+          originalPrice: 45000,
+          currentPrice: 35000,
+          brand: "HP",
+          seller: "VienThongA"
+        },
+        {
+          name: "Cannon D500",
+          categories: ["Camera", "Electronic", "Device"],
+          description: "New camera 2020",
+          rating: 4.5,
+          originalPrice: 40000,
+          currentPrice: 38000,
+          brand: "Cannon",
+          seller: "FPT"
+        },
+        {
+          name: "iMac 2020",
+          categories: ["Desktop", "Electronic", "Apple"],
+          description: "New device from Apple",
+          rating: 4,
+          originalPrice: 58000,
+          currentPrice: 52000,
+          brand: "Apple",
+          seller: "DienMayXanh"
+        },
+        {
+          name: "HP LBP 9000",
+          categories: ["Printer", "Accesories"],
+          description: "New printer from HP",
+          rating: 4,
+          originalPrice: 32000,
+          currentPrice: 30000,
+          brand: "HP",
+          seller: "PhongVu"
+        },
+        {
+          name: "Dell Inspiron",
+          categories: ["Laptop", "Electronic"],
+          description: "New inspiron 2019, laptop device from HP",
+          rating: 3.5,
+          originalPrice: 50000,
+          currentPrice: 34000,
+          brand: "HP",
+          seller: "VienThongA"
+        }
+      ];
+      targetDb.products.insert(products);
+      targetDb.products.createIndex( {"$**": "text"} );
+      
+      var queries =
+      [
+        {
+          queryString: "macbook",
+          rating: 3.5,
+          minPrice: 20000,
+          maxPrice: 30000,
+          sortBy: "categories",
+          sortType: "asc"
+        },
+        {
+          queryString: "laptop",
+          categories: "Electronic",
+          rating: 4,
+          minPrice: 22000,
+          maxPrice: 50000,
+          brand: "Apple"
+        },
+        {
+          queryString: "camera",
+          rating: 4,
+          minPrice: 22000,
+          maxPrice: 50000,
+          brand: "Cannon",
+          seller: "VienThongA",
+          sortBy: "seller",
+          sortType: "desc"
+        },
+        {
+          queryString: "Cannon"
+        }
+      ];
+      
+      targetDb.queries.insert(queries);
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongodb-standalone
+  namespace: database
+spec:
+  serviceName: database
+  replicas: 1
+  selector:
+    matchLabels:
+      app: database
+  template:
+    metadata:
+      labels:
+        app: database
+        selector: mongodb-standalone
+    spec:
+      containers:
+      - name: mongodb-standalone
+        image: mongo:4.0.19
+        env:
+          - name: MONGO_INITDB_ROOT_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: credentials
+                key: MONGO_ROOT_USERNAME
+          - name: MONGO_INITDB_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: credentials
+                key: MONGO_ROOT_PASSWORD
+        volumeMounts:
+          - name: credentials
+            mountPath: /etc/credentials
+            readOnly: true
+          - name: mongodb-scripts
+            mountPath: /docker-entrypoint-initdb.d
+            readOnly: true
+          - name: mongodb-conf
+            mountPath: /config
+            readOnly: true
+          - name: mongodb-standalone
+            mountPath: /data/db
+      volumes:
+      - name: credentials
+        secret:
+          secretName: credentials
+          items:
+            - key: MONGO_ROOT_USERNAME
+              path: admin/MONGO_ROOT_USERNAME
+              mode: 0444
+            - key: MONGO_ROOT_PASSWORD
+              path: admin/MONGO_ROOT_PASSWORD
+              mode: 0444
+            - key: MONGO_USERS_LIST
+              path: MONGO_USERS_LIST
+              mode: 0444
+      - name: mongodb-scripts
+        configMap:
+          name: mongodb-standalone
+          items:
+          - key: ensure-users.js
+            path: ensure-users.js
+      - name: mongodb-conf
+        configMap:
+          name: mongodb-standalone
+          items:
+          - key: mongo.conf
+            path: mongo.conf   
+  volumeClaimTemplates:
+    - metadata:
+        name: mongodb-standalone
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: database
+  namespace: database
+  labels:
+    app: database
+spec:
+  clusterIP: None
+  selector:
+    app: database
