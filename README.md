@@ -17,9 +17,10 @@
 - Testing
   - ...
 ## Architecture design
+![Architecture design](./images/iCommerce-architecture.png)
 - Three-tier architecture
 - Microservice
-- API-Gateway architecte
+- API-Gateway architect
 ## Database design
 - 
 ## Service Implementation
@@ -27,7 +28,7 @@
 
 # Local build, deploy and test
 ## Set up environment 
-### Prequisites
+### Prerequisites
 - Docker
 - Minikube
 ## Build
