@@ -8,5 +8,5 @@ RUN npm ci --quiet --only=production
 
 COPY . .
 
-EXPOSE 8080
+EXPOSE 8081
 CMD [ "npm", "start" ]

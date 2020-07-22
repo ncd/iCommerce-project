@@ -1,11 +1,11 @@
+"use strict";
+
 const services = require('../services');
-const { Query } = require('mongoose');
+
 
 exports.getProducts = async ctx => {
   const query = ctx.request.query;
-  var response = {}
-  console.log("controller")
-  console.log(services.getProducts(ctx.request.query) instanceof Promise);
+  let response = {}
   response.products = await services.getProducts(ctx.request.query);
   try {
     response.brands = await services.getFieldCounts(query.query, "brand");
@@ -22,7 +22,7 @@ exports.getProducts = async ctx => {
   catch(e) {
     ctx.throw(500, "Internal Error");
   }
-  ctx.body = response
+  ctx.body = response;
 }
 
 exports.getProduct = async ctx => {

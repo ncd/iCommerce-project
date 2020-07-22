@@ -158,7 +158,7 @@ data:
         },
         {
           querystring: "laptop",
-          categories: "Electronic",
+          category: "Electronic",
           rating: 4,
           minprice: 22000,
           maxprice: 50000,

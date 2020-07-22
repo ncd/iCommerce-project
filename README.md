@@ -23,7 +23,11 @@
 - CI/CD  
   - **Skaffold**: Handle building, pushing and deploying into Kubernetes cluster  
 - Testing  
-  - ...
+  - **Jest**
+  - **Supertest**
+  - **Mockingoose**
+  - **Sinon**
+  - **sinon-mongoose**
 ## Architecture design  
 ![Architecture design](./images/iCommerce-architecture.png)  
 - **Multitier architecture**: I choose 3-tier architecture for the system. Separate the system into 3 different component:  
@@ -60,7 +64,7 @@ The architecture of the Service still follow **MVC architecture**. The only chan
 ## APIs  
 | API | Method | Description |
 |---|---|---|
-| `api/products` | `GET` | Get list products |
+| `api/products` | `GET` | Get list products and count of products's properties. **Note**: The counted value is based on result after `full text search`, other filters will not affect. This is match with ecommerce pages. |
 | `api/products` | `POST` | Create new products |
 | `api/products/find/:id` | `GET` | Get product by id |
 | `api/queries` | `GET` | Get list queries |
@@ -81,6 +85,7 @@ The architecture of the Service still follow **MVC architecture**. The only chan
 | Params | Type | Value |
 |---|---|---|
 | query | String | query string to search, full text search |
+| category | String | category to filter, find match |
 | brand | String | brand to filter, find match |
 | rating | Number | rating to filter, find match |
 | seller | String | seller to filter, find match |
@@ -90,6 +95,9 @@ The architecture of the Service still follow **MVC architecture**. The only chan
 | sorttype | String | order type to filter, find match |
 
 **NOTE** URL parameters is case sensitive, please use the correct form in order to get the correct result
+
+### Product query example   
+![Example](./images/example.png)
 
 # Build and Deploy  
 ## Set up environment   
@@ -109,11 +117,11 @@ The architecture of the Service still follow **MVC architecture**. The only chan
   kubectl cluster-info
 ```
 - Now build the services  
-  - **Build with skaffold**  
+  - **Build with skaffold (Tested)**  
   ```sh
     skaffold build
   ```
-  - **Build without skaffold**  
+  - **Build without skaffold (Tested)**  
   ```sh
     # If you use Minikube, uncomment the following command:
     # eval $(minikube docker-env)
@@ -122,28 +130,42 @@ The architecture of the Service still follow **MVC architecture**. The only chan
   ```
 ## Deploy  
 - First deploy resources on cluster  
-  - **Deploy with skaffold**  
+  - **Deploy with skaffold (Tested)**  
   ```sh
     skaffold run
   ```
-  - **Deploy without skaffold**  
+  - **Deploy without skaffold (Tested)**  
   ```sh
     kubectl apply -f kubernetes-manifests/
   ```
 - Setup the Kong API's routes information  
-  - **For minikube**  
+  - **For minikube (Tested)**  
   ```sh
     ./setup/kong-routing-setup.sh
   ```
-  - **For other clusters**: change the `hostname` to accessible url of Kong's admin api.  
-## Test  
-- **For minikube**: run the following command to open browser  
+  - **For other clusters (Untested)**: change the `hostname` to accessible url of Kong's admin api.  
+## Verify  
+- **For minikube (Tested)**: run the following command to open browser  
   ```sh
     minikube service kong-proxy -n kong
   ```
-- **For other clusters**: enter the accessible url of Kong's proxy api in your browser to test.  
+- **For other clusters (Untested)**: enter the accessible url of Kong's proxy api in your browser to test.  
+
+## Unittest
+- Go to `services/${service_name}` and run the following command:
+```sh
+npm test
+```
+
+The test's result will looks like
+![Test result](./images/unittest.png)
 
 # Future upgrade  
-- Service mesh  
-- Update database design  
-- Use helm & flux  
+- **Service mesh** is used to improve service's internal calls, currently this is done via Kong-Proxy
+- Update **database design** with the following enhancements:
+  - Entity Relationship design, consider switch to **snowflake** structure
+  - Consider move to **SQL Databases** 
+- Use **Helm & Flux** to optimize deployment on real Kubernetes Cluser
+- Add more microservices to the system: **Cart Service**, **Checkout Service**...
+- Switch from **jest** framework to **mocha** framework for testing since **jest** can't work smoothly with **mongoose**
+- Refactor **services** component's code structure to be cleaner and easier to work with.

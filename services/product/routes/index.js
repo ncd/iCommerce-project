@@ -1,3 +1,4 @@
+"use strict";
 const koaBody = require('koa-body');
 const Router = require('koa-better-router');
 

@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Service test createQuery test 1`] = `null`;
+
+exports[`Service test createQuery test 2`] = `null`;
+
+exports[`Service test getQueries test 1`] = `Array []`;
+
+exports[`Service test getQueries test 2`] = `
+Array [
+  Object {
+    "_id": "2",
+    "brand": "Cannon",
+    "maxprice": 50000,
+    "minprice": 22000,
+    "querystring": "camera",
+    "rating": 4,
+    "seller": "VienThongA",
+    "sortby": "seller",
+    "sorttype": "desc",
+  },
+]
+`;
+
+exports[`Service test getQueries test 3`] = `
+Array [
+  Object {
+    "_id": "1",
+    "brand": "Apple",
+    "category": "Electronic",
+    "maxprice": 50000,
+    "minprice": 22000,
+    "querystring": "laptop",
+    "rating": 4,
+  },
+]
+`;
+
+exports[`Service test getQueries test 4`] = `
+Array [
+  Object {
+    "_id": "1",
+    "brand": "Apple",
+    "category": "Electronic",
+    "maxprice": 50000,
+    "minprice": 22000,
+    "querystring": "laptop",
+    "rating": 4,
+  },
+  Object {
+    "_id": "2",
+    "brand": "Cannon",
+    "maxprice": 50000,
+    "minprice": 22000,
+    "querystring": "camera",
+    "rating": 4,
+    "seller": "VienThongA",
+    "sortby": "seller",
+    "sorttype": "desc",
+  },
+]
+`;
+
+exports[`Service test getQueries test 5`] = `
+Array [
+  Object {
+    "_id": "0",
+    "maxprice": 30000,
+    "minprice": 20000,
+    "querystring": "macbook",
+    "rating": 3.5,
+    "sortby": "categories",
+    "sorttype": "asc",
+  },
+]
+`;
+
+exports[`Service test getQueries test 6`] = `Array []`;
+
+exports[`Service test getQuery test 1`] = `
+Object {
+  "_id": "1",
+  "brand": "Apple",
+  "category": "Electronic",
+  "maxprice": 50000,
+  "minprice": 22000,
+  "querystring": "laptop",
+  "rating": 4,
+}
+`;
+
+exports[`Service test getQuery test 2`] = `undefined`;

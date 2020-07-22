@@ -1,4 +1,6 @@
+"use strict";
 const Koa = require('koa');
+const logger = require('koa-logger');
 const routes = require('./routes');
 const database = require('./database');
 
@@ -12,13 +14,15 @@ database( {
   database: process.env.DB_DATABASE
 });
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8081;
 
 // Load the routes
 app.use(routes());
+app.use(logger());
 
 // Start the server
 const server = app.listen(PORT, () => {
   console.log(`Listening on ${PORT}`);
-
 });
+
+module.exports = server

@@ -1,0 +1,280 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Controllers test createProduct test 1`] = `
+Object {
+  "categories": Array [
+    "Laptop",
+    "Electronic",
+    "Device",
+  ],
+  "description": "Brand new device notebook from HP",
+  "id": "1",
+  "name": "HP Notebook 2020",
+  "originalprice": 45000,
+  "rating": 4.5,
+}
+`;
+
+exports[`Controllers test getProduct test 1`] = `
+Object {
+  "_id": "1",
+  "brand": "HP",
+  "categories": Array [
+    "Laptop",
+    "Electronic",
+    "Device",
+  ],
+  "currentprice": 35000,
+  "description": "Brand new device notebook from HP",
+  "name": "HP Notebook 2020",
+  "originalprice": 45000,
+  "rating": 4.5,
+  "seller": "VienThongA",
+}
+`;
+
+exports[`Controllers test getProducts test 1`] = `
+Object {
+  "brands": undefined,
+  "categories": undefined,
+  "products": Array [
+    Object {
+      "_id": "1",
+      "brand": "HP",
+      "categories": Array [
+        "Laptop",
+        "Electronic",
+        "Device",
+      ],
+      "currentprice": 35000,
+      "description": "Brand new device notebook from HP",
+      "name": "HP Notebook 2020",
+      "originalprice": 45000,
+      "rating": 4.5,
+      "seller": "VienThongA",
+    },
+  ],
+  "ratings": undefined,
+  "sellers": undefined,
+}
+`;
+
+exports[`Controllers test getProducts test 2`] = `
+Object {
+  "brands": undefined,
+  "categories": undefined,
+  "products": Array [
+    Object {
+      "_id": "2",
+      "brand": "Cannon",
+      "categories": Array [
+        "Camera",
+        "Electronic",
+        "Device",
+      ],
+      "currentprice": 38000,
+      "description": "New camera 2020",
+      "name": "Cannon D500",
+      "originalprice": 40000,
+      "rating": 4.5,
+      "seller": "FPT",
+    },
+  ],
+  "ratings": undefined,
+  "sellers": undefined,
+}
+`;
+
+exports[`Controllers test getProducts test 3`] = `
+Object {
+  "brands": undefined,
+  "categories": undefined,
+  "products": Array [
+    Object {
+      "_id": "0",
+      "brand": "Apple",
+      "categories": Array [
+        "Laptop",
+        "Electronic",
+        "Apple",
+      ],
+      "currentprice": 30000,
+      "description": "Macbook new design 2018",
+      "name": "Macbook air 2018",
+      "originalprice": 50000,
+      "rating": 5,
+      "seller": "FPT",
+    },
+    Object {
+      "_id": "1",
+      "brand": "HP",
+      "categories": Array [
+        "Laptop",
+        "Electronic",
+        "Device",
+      ],
+      "currentprice": 35000,
+      "description": "Brand new device notebook from HP",
+      "name": "HP Notebook 2020",
+      "originalprice": 45000,
+      "rating": 4.5,
+      "seller": "VienThongA",
+    },
+    Object {
+      "_id": "2",
+      "brand": "Cannon",
+      "categories": Array [
+        "Camera",
+        "Electronic",
+        "Device",
+      ],
+      "currentprice": 38000,
+      "description": "New camera 2020",
+      "name": "Cannon D500",
+      "originalprice": 40000,
+      "rating": 4.5,
+      "seller": "FPT",
+    },
+  ],
+  "ratings": undefined,
+  "sellers": undefined,
+}
+`;
+
+exports[`Controllers test getProducts test 4`] = `
+Object {
+  "brands": undefined,
+  "categories": undefined,
+  "products": Array [
+    Object {
+      "_id": "0",
+      "brand": "Apple",
+      "categories": Array [
+        "Laptop",
+        "Electronic",
+        "Apple",
+      ],
+      "currentprice": 30000,
+      "description": "Macbook new design 2018",
+      "name": "Macbook air 2018",
+      "originalprice": 50000,
+      "rating": 5,
+      "seller": "FPT",
+    },
+    Object {
+      "_id": "1",
+      "brand": "HP",
+      "categories": Array [
+        "Laptop",
+        "Electronic",
+        "Device",
+      ],
+      "currentprice": 35000,
+      "description": "Brand new device notebook from HP",
+      "name": "HP Notebook 2020",
+      "originalprice": 45000,
+      "rating": 4.5,
+      "seller": "VienThongA",
+    },
+    Object {
+      "_id": "2",
+      "brand": "Cannon",
+      "categories": Array [
+        "Camera",
+        "Electronic",
+        "Device",
+      ],
+      "currentprice": 38000,
+      "description": "New camera 2020",
+      "name": "Cannon D500",
+      "originalprice": 40000,
+      "rating": 4.5,
+      "seller": "FPT",
+    },
+  ],
+  "ratings": undefined,
+  "sellers": undefined,
+}
+`;
+
+exports[`Controllers test getProducts test 5`] = `
+Object {
+  "brands": undefined,
+  "categories": undefined,
+  "products": Array [
+    Object {
+      "_id": "0",
+      "brand": "Apple",
+      "categories": Array [
+        "Laptop",
+        "Electronic",
+        "Apple",
+      ],
+      "currentprice": 30000,
+      "description": "Macbook new design 2018",
+      "name": "Macbook air 2018",
+      "originalprice": 50000,
+      "rating": 5,
+      "seller": "FPT",
+    },
+  ],
+  "ratings": undefined,
+  "sellers": undefined,
+}
+`;
+
+exports[`Controllers test getProducts test 6`] = `
+Object {
+  "brands": undefined,
+  "categories": undefined,
+  "products": Array [
+    Object {
+      "_id": "0",
+      "brand": "Apple",
+      "categories": Array [
+        "Laptop",
+        "Electronic",
+        "Apple",
+      ],
+      "currentprice": 30000,
+      "description": "Macbook new design 2018",
+      "name": "Macbook air 2018",
+      "originalprice": 50000,
+      "rating": 5,
+      "seller": "FPT",
+    },
+    Object {
+      "_id": "2",
+      "brand": "Cannon",
+      "categories": Array [
+        "Camera",
+        "Electronic",
+        "Device",
+      ],
+      "currentprice": 38000,
+      "description": "New camera 2020",
+      "name": "Cannon D500",
+      "originalprice": 40000,
+      "rating": 4.5,
+      "seller": "FPT",
+    },
+    Object {
+      "_id": "1",
+      "brand": "HP",
+      "categories": Array [
+        "Laptop",
+        "Electronic",
+        "Device",
+      ],
+      "currentprice": 35000,
+      "description": "Brand new device notebook from HP",
+      "name": "HP Notebook 2020",
+      "originalprice": 45000,
+      "rating": 4.5,
+      "seller": "VienThongA",
+    },
+  ],
+  "ratings": undefined,
+  "sellers": undefined,
+}
+`;

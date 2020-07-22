@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`API test GET / default test 1`] = `""`;
+
+exports[`API test GET / with full text seach test 1`] = `""`;
+
+exports[`API test GET /find/:id test 1`] = `"Query not found"`;
+
+exports[`API test GET /ping test 1`] = `"Ping success"`;

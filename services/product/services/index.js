@@ -1,12 +1,12 @@
+'use strict';
+
 const Product = require('../models/products')
 const axios = require('axios');
-const { Query } = require('mongoose');
 
 const KONG_PROXY_HOST = process.env.KONG_PROXY_HOST || 'kong-proxy.kong.svc.cluster.local';
 const KONG_PROXY_PORT = process.env.KONG_PROXY_PORT || 80;
 exports.logQuery = async query => {
-
-  var storeQuery = {
+  let storeQuery = {
     querystring: query.query,
     rating: query.rating,
     brand: query.brand,
@@ -14,7 +14,7 @@ exports.logQuery = async query => {
     seller: query.seller
   }
   if (query.price) {
-    var prices = query.price.split(":");
+    let prices = query.price.split(':');
     if (prices[0]) {
       storeQuery.minprice = prices[0];
     }
@@ -23,7 +23,7 @@ exports.logQuery = async query => {
     }
   }
   if (query.sort) {
-    var sortItems = query.sort.split(":");
+    let sortItems = query.sort.split(':');
     if (sortItems[0]) {
       storeQuery.sortby = sortItems[0];
       if (sortItems[1]) {
@@ -35,7 +35,7 @@ exports.logQuery = async query => {
 }
 
 exports.getFieldCounts = async (query, field) => {
-  var aggregateOpts = []
+  let aggregateOpts = []
   if (query) {
     aggregateOpts.push({
       $match: {
@@ -53,7 +53,7 @@ exports.getFieldCounts = async (query, field) => {
 }
 
 exports.getProducts = async query => {
-  var search = {}
+  let search = {}
   if (query.query) {
     search.$text = { $search: query.query };
   }
@@ -70,35 +70,33 @@ exports.getProducts = async query => {
     search.seller = query.seller;
   }
   if (query.price) {
-    var prices = query.price.split(":");
+    let prices = query.price.split(':');
+    search.currentprice = {}
     if (prices[0]) {
-      search.currentprice = { $gt: parseInt(prices[0]) };
+      search.currentprice.$gt = parseInt(prices[0]);
     }
     if (prices[1]) {
-      search.currentprice = { $lt: parseInt(prices[1]) };
+      search.currentprice.$lt = parseInt(prices[1]);
     }
   }
-  console.log(search)
-  let result = Product.find(search);
   if (query.sort) {
-    var sortItems = query.sort.split(":");
-    var sort;
+    let sortItems = query.sort.split(':');
     if (sortItems[0]) {
-      if(sortItems[0] === "price") {
-        sortItems[0] = "currentprice";
+      if(sortItems[0] === 'price') {
+        sortItems[0] = 'currentprice';
       }
-      if(!sortItems[1] || sortItems[1] === "desc") {
+      let sort;
+      if(!sortItems[1] || sortItems[1] === 'desc') {
         sort = `'-${sortItems[0]}'`;
       }
       else {
         sort = `'${sortItems[0]}'`
       }
-      console.log(sort)
-      return result.sort(sort);
+      return Product.find(search).sort(sort);
     }
   }
   else {
-    return result;
+    return Product.find(search);
   }
 }
 

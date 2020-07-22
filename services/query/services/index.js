@@ -1,7 +1,8 @@
+"use strict";
 const Queries = require('../models/queries')
 
 exports.getQueries = async (query) => {
-  var search = {};
+  let search = {};
   if (query.brand) {
     search.brand = query.brand;
   }
@@ -29,7 +30,6 @@ exports.getQueries = async (query) => {
   if (query.query) {
     search.$text = { $search: query.query };
   }
-  console.log(search)
   return Queries.find(search);
 }
 
@@ -38,7 +38,6 @@ exports.getQuery = async id => {
 }
 
 exports.createQuery = async values => {
-  console.log(values)
   return Queries.create(values);
 }
 
