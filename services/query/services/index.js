@@ -1,7 +1,36 @@
 const Queries = require('../models/queries')
 
-exports.getQueries = async () => {
-  return Queries.find({});
+exports.getQueries = async (query) => {
+  var search = {};
+  if (query.brand) {
+    search.brand = query.brand;
+  }
+  if (query.category) {
+    search.category = query.category;
+  }
+  if (query.rating) {
+    search.rating = query.rating;
+  }
+  if (query.seller) {
+    search.seller = query.seller;
+  }
+  if (query.minprice) {
+    search.minprice = query.minprice;
+  }
+  if (query.maxprice) {
+    search.maxprice = query.maxprice;
+  }
+  if (query.sortby) {
+    search.sortby = query.sortby;
+  }
+  if (query.sorttype) {
+    search.sorttype = query.sorttype;
+  }
+  if (query.query) {
+    search.$text = { $search: query.query };
+  }
+  console.log(search)
+  return Queries.find(search);
 }
 
 exports.getQuery = async id => {

@@ -20,5 +20,4 @@ app.use(routes());
 // Start the server
 const server = app.listen(PORT, () => {
   console.log(`Listening on ${PORT}`);
-
 });

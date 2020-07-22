@@ -60,12 +60,37 @@ The architecture of the Service still follow **MVC architecture**. The only chan
 ## APIs  
 | API | Method | Description |
 |---|---|---|
-|`api/products` | `GET` | Get list products |
-|`api/products` | `POST` | Create new products |
-|`api/products/find/:id` | `GET` | Get product by id |
-|`api/queries` | `GET` | Get list queries |
-|`api/queries` | `POST` | Create new queries record |
-|`api/queries/find/:id` | `GET` | Get query by id |
+| `api/products` | `GET` | Get list products |
+| `api/products` | `POST` | Create new products |
+| `api/products/find/:id` | `GET` | Get product by id |
+| `api/queries` | `GET` | Get list queries |
+| `api/queries` | `POST` | Create new queries record |
+| `api/queries/find/:id` | `GET` | Get query by id |
+
+### GET `api/products` URL Parameters
+| Params | Type | Value |
+|---|---|---|
+| query | String | string to search, full text search |
+| brand | String | brand to filter, find match |
+| category | String | category to filter, find match |
+| rating | Number | rating to filter, find gte |
+| seller | String | seller to filter, find match |
+| price | String | price to filter, format ```js ${min}:${max} ``` |
+| sort | String | order the result, format ```js ${field}:${order} ```, order in [`min`, `max`] |
+### GET `api/queries` URL Parameters
+| Params | Type | Value |
+|---|---|---|
+| query | String | query string to search, full text search |
+| brand | String | brand to filter, find match |
+| rating | Number | rating to filter, find match |
+| seller | String | seller to filter, find match |
+| minprice | Number | min price to filter, find match |
+| maxprice | Number | max price to filter, find match |
+| sortby | String | order type to filter, find match |
+| sorttype | String | order type to filter, find match |
+
+**NOTE** URL parameters is case sensitive, please use the correct form in order to get the correct result
+
 # Build and Deploy  
 ## Set up environment   
 ### Prerequisites  

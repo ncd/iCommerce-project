@@ -7,7 +7,7 @@ const KONG_PROXY_PORT = process.env.KONG_PROXY_PORT || 80;
 exports.logQuery = async query => {
 
   var storeQuery = {
-    queryString: query.query,
+    querystring: query.query,
     rating: query.rating,
     brand: query.brand,
     category: query.category,
@@ -16,18 +16,18 @@ exports.logQuery = async query => {
   if (query.price) {
     var prices = query.price.split(":");
     if (prices[0]) {
-      storeQuery.minPrice = prices[0];
+      storeQuery.minprice = prices[0];
     }
     if (prices[1]) {
-      storeQuery.maxPrice = prices[1];
+      storeQuery.maxprice = prices[1];
     }
   }
   if (query.sort) {
     var sortItems = query.sort.split(":");
     if (sortItems[0]) {
-      storeQuery.sortBy = sortItems[0];
+      storeQuery.sortby = sortItems[0];
       if (sortItems[1]) {
-        storeQuery.sortType = sortItems[1];
+        storeQuery.sorttype = sortItems[1];
       }
     }
   }
@@ -72,10 +72,10 @@ exports.getProducts = async query => {
   if (query.price) {
     var prices = query.price.split(":");
     if (prices[0]) {
-      search.currentPrice = { $gt: parseInt(prices[0]) };
+      search.currentprice = { $gt: parseInt(prices[0]) };
     }
     if (prices[1]) {
-      search.currentPrice = { $lt: parseInt(prices[1]) };
+      search.currentprice = { $lt: parseInt(prices[1]) };
     }
   }
   console.log(search)
@@ -85,7 +85,7 @@ exports.getProducts = async query => {
     var sort;
     if (sortItems[0]) {
       if(sortItems[0] === "price") {
-        sortItems[0] = "currentPrice";
+        sortItems[0] = "currentprice";
       }
       if(!sortItems[1] || sortItems[1] === "desc") {
         sort = `'-${sortItems[0]}'`;
@@ -101,8 +101,6 @@ exports.getProducts = async query => {
     return result;
   }
 }
-
-
 
 exports.getProduct = async id => {
   return Product.findById(id)

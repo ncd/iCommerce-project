@@ -87,8 +87,8 @@ data:
           categories: ["Laptop", "Electronic", "Apple"],
           description: "Macbook new design 2018",
           rating: 5,
-          originalPrice: 50000,
-          currentPrice: 30000,
+          originalprice: 50000,
+          currentprice: 30000,
           brand: "Apple",
           seller: "FPT"
         },
@@ -97,8 +97,8 @@ data:
           categories: ["Laptop", "Electronic", "Device"],
           description: "Brand new device notebook from HP",
           rating: 4.5,
-          originalPrice: 45000,
-          currentPrice: 35000,
+          originalprice: 45000,
+          currentprice: 35000,
           brand: "HP",
           seller: "VienThongA"
         },
@@ -107,8 +107,8 @@ data:
           categories: ["Camera", "Electronic", "Device"],
           description: "New camera 2020",
           rating: 4.5,
-          originalPrice: 40000,
-          currentPrice: 38000,
+          originalprice: 40000,
+          currentprice: 38000,
           brand: "Cannon",
           seller: "FPT"
         },
@@ -117,8 +117,8 @@ data:
           categories: ["Desktop", "Electronic", "Apple"],
           description: "New device from Apple",
           rating: 4,
-          originalPrice: 58000,
-          currentPrice: 52000,
+          originalprice: 58000,
+          currentprice: 52000,
           brand: "Apple",
           seller: "DienMayXanh"
         },
@@ -127,8 +127,8 @@ data:
           categories: ["Printer", "Accesories"],
           description: "New printer from HP",
           rating: 4,
-          originalPrice: 32000,
-          currentPrice: 30000,
+          originalprice: 32000,
+          currentprice: 30000,
           brand: "HP",
           seller: "PhongVu"
         },
@@ -137,8 +137,8 @@ data:
           categories: ["Laptop", "Electronic"],
           description: "New inspiron 2019, laptop device from HP",
           rating: 3.5,
-          originalPrice: 50000,
-          currentPrice: 34000,
+          originalprice: 50000,
+          currentprice: 34000,
           brand: "HP",
           seller: "VienThongA"
         }
@@ -149,37 +149,38 @@ data:
       var queries =
       [
         {
-          queryString: "macbook",
+          querystring: "macbook",
           rating: 3.5,
-          minPrice: 20000,
-          maxPrice: 30000,
-          sortBy: "categories",
-          sortType: "asc"
+          minprice: 20000,
+          maxprice: 30000,
+          sortby: "categories",
+          sorttype: "asc"
         },
         {
-          queryString: "laptop",
+          querystring: "laptop",
           categories: "Electronic",
           rating: 4,
-          minPrice: 22000,
-          maxPrice: 50000,
+          minprice: 22000,
+          maxprice: 50000,
           brand: "Apple"
         },
         {
-          queryString: "camera",
+          querystring: "camera",
           rating: 4,
-          minPrice: 22000,
-          maxPrice: 50000,
+          minprice: 22000,
+          maxprice: 50000,
           brand: "Cannon",
           seller: "VienThongA",
-          sortBy: "seller",
-          sortType: "desc"
+          sortby: "seller",
+          sorttype: "desc"
         },
         {
-          queryString: "Cannon"
+          querystring: "Cannon"
         }
       ];
       
       targetDb.queries.insert(queries);
+      targetDb.queries.createIndex( { querystring: "text" })
 
 ---
 apiVersion: apps/v1

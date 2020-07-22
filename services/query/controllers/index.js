@@ -1,7 +1,7 @@
 const services = require('../services')
 
 exports.getQueries = async ctx => {
-  ctx.body = await services.getQueries()
+  ctx.body = await services.getQueries(ctx.request.query)
 }
 
 exports.getQuery = async ctx => {
