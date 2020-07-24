@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: query-service
+  name: view-service
   namespace: service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: query-service
+      app: view-service
   template:
     metadata:
       labels:
-        app: query-service
+        app: view-service
     spec:
       containers:
       - name: icommerce
-        image: icommerce/query-service
+        image: icommerce/view-service
         imagePullPolicy: Never
         ports:
         - containerPort: 8080
@@ -49,11 +49,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: query-service
+  name: view-service
   namespace: service
 spec:
   selector:
-    app: query-service
+    app: view-service
   ports:
   - name: http
     port: 8080

@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`API test DELETE /:id test 1`] = `"{\\"productid\\":\\"123456\\"}"`;
+
+exports[`API test DELETE /:id test 2`] = `"Query not found"`;
+
+exports[`API test DELETE /:id test 3`] = `"Query not found"`;
+
+exports[`API test DELETE /:id test 4`] = `"Internal Server Error"`;
+
+exports[`API test GET / default test 1`] = `"[{\\"_id\\":\\"0\\",\\"productid\\":\\"1234567\\"},{\\"_id\\":\\"1\\",\\"productid\\":\\"234924124\\"},{\\"_id\\":\\"2\\",\\"productid\\":\\"123jk3234\\"}]"`;
+
+exports[`API test GET / internal error 1`] = `"Internal Server Error"`;
+
+exports[`API test GET / with productid 1`] = `"[{\\"_id\\":\\"0\\",\\"productid\\":\\"1234567\\"}]"`;
+
+exports[`API test GET /:id invalid id 1`] = `"Query not found"`;
+
+exports[`API test GET /:id invalid id 2`] = `"Internal Server Error"`;
+
+exports[`API test GET /:id test valid id 1`] = `"{\\"_id\\":\\"1\\",\\"productid\\":\\"234924124\\"}"`;
+
+exports[`API test PATCH /:id test 1`] = `"{\\"productid\\":\\"123456\\"}"`;
+
+exports[`API test PATCH /:id test 2`] = `"View not found"`;
+
+exports[`API test PATCH /:id test 3`] = `"View not found"`;
+
+exports[`API test PATCH /:id test 4`] = `"Internal Server Error"`;
+
+exports[`API test POST / test 1`] = `"{\\"_id\\":\\"4\\",\\"query\\":\\"12345\\"}"`;

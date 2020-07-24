@@ -11,6 +11,8 @@ const schema = new Schema({
   currentPrice: Number,
   brand: String,
   seller: String
+}, {
+  timestamps: true
 });
 
 module.exports = mongoose.model('products', schema);

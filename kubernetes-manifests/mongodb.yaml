@@ -182,6 +182,16 @@ data:
       targetDb.queries.insert(queries);
       targetDb.queries.createIndex( { querystring: "text" })
 
+      views = [
+        {
+          productid: "5f1a4bddddf1c37354a38cd8"
+        },
+        {
+          productid: "5f1a4bddddf1c37354a53cd8"
+        }
+      ];
+      targetDb.views.insert(views);
+
 ---
 apiVersion: apps/v1
 kind: StatefulSet

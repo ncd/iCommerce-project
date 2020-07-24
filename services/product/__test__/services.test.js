@@ -55,7 +55,7 @@ modelsMock.expects('find').withArgs({ $text: { $search: 'Cannon' }})
   .chain('exec')
   .resolves([_data[2]]);
 
-modelsMock.expects('find').withArgs({ brand: 'Cannon'})
+modelsMock.expects('find').withArgs({ brand: 'Cannon', seller: "FPT"})
   .resolves([_data[2]]);
 
 modelsMock.expects('find').withArgs({ categories: 'Electronic'})
@@ -109,7 +109,7 @@ describe('Service test', () => {
   test('getProducts test', async () => {
     let result = await services.getProducts({ query: "hp" });
     expect(result).toMatchSnapshot();
-    result = await services.getProducts({ brand: "Cannon"});
+    result = await services.getProducts({ brand: "Cannon", seller: "FPT"});
     expect(result).toMatchSnapshot();
     result = await services.getProducts({ category: "Electronic" });
     expect(result).toMatchSnapshot();

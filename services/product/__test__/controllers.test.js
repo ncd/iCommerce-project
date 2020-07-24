@@ -39,7 +39,6 @@ const _data = [
   }
 ];
 services.getProducts.mockImplementation(async query => {
-  console.log(query);
   if ( query.query === 'hp') {
     return [_data[1]];
   }
@@ -112,7 +111,6 @@ describe('Controllers test', () => {
       ctx.params.id = id;
       return ctx;
     };
-    console.log(ctx);
     await controllers.getProduct(addParams(1));
     expect(ctx.body).toMatchSnapshot();
     await controllers.getProduct(addParams(5));

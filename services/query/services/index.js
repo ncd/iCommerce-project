@@ -1,5 +1,6 @@
 "use strict";
-const Queries = require('../models/queries')
+const mongoose = require('mongoose');
+const Queries = require('../models/queries');
 
 exports.getQueries = async (query) => {
   let search = {};
@@ -34,7 +35,28 @@ exports.getQueries = async (query) => {
 }
 
 exports.getQuery = async id => {
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return null;
+  }
   return Queries.findById(id);
+}
+
+exports.updateQuery = async (id, values) => {
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return null;
+  }
+  let updatedQuery = await Queries.findByIdAndUpdate(id, values);
+  if (updatedQuery) {
+    await updatedQuery.save();
+  }
+  return updatedQuery;
+}
+
+exports.deleteQuery = async id => {
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return null;
+  }
+  return Queries.findByIdAndDelete(id);
 }
 
 exports.createQuery = async values => {

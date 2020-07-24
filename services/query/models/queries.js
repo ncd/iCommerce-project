@@ -12,6 +12,8 @@ const schema = new Schema({
   seller: String,
   sortBy: String,
   sortType: String,
+}, {
+  timestamps: true
 });
 
 // schema.index({'$**': 'text'});

@@ -1,10 +1,10 @@
 'use strict';
-
-const Product = require('../models/products')
+const mongoose = require('mongoose');
 const axios = require('axios');
-
+const Products = require('../models/products');
 const KONG_PROXY_HOST = process.env.KONG_PROXY_HOST || 'kong-proxy.kong.svc.cluster.local';
 const KONG_PROXY_PORT = process.env.KONG_PROXY_PORT || 80;
+
 exports.logQuery = async query => {
   let storeQuery = {
     querystring: query.query,
@@ -34,6 +34,13 @@ exports.logQuery = async query => {
   return axios.post(`http://${KONG_PROXY_HOST}:${KONG_PROXY_PORT}/api/queries`, storeQuery);
 }
 
+exports.logView = async id => {
+  let product = {
+    productid: id
+  };
+  return axios.post(`http://${KONG_PROXY_HOST}:${KONG_PROXY_PORT}/api/views`, product);
+}
+
 exports.getFieldCounts = async (query, field) => {
   let aggregateOpts = []
   if (query) {
@@ -49,7 +56,7 @@ exports.getFieldCounts = async (query, field) => {
       count: { $sum: 1 }
     }
   })
-  return Product.aggregate(aggregateOpts);
+  return Products.aggregate(aggregateOpts);
 }
 
 exports.getProducts = async query => {
@@ -92,20 +99,41 @@ exports.getProducts = async query => {
       else {
         sort = `'${sortItems[0]}'`
       }
-      return Product.find(search).sort(sort);
+      return Products.find(search).sort(sort);
     }
   }
   else {
-    return Product.find(search);
+    return Products.find(search);
   }
 }
 
 exports.getProduct = async id => {
-  return Product.findById(id)
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return null;
+  }
+  return Products.findById(id)
+}
+
+exports.updateProduct = async (id, product) => {
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return null;
+  }
+  let updatedProduct = await Products.findByIdAndUpdate(id, product);
+  if (updatedProduct) {
+    await updatedProduct.save();
+  }
+  return updatedProduct;
+}
+
+exports.deleteProduct = async id => {
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return null;
+  }
+  return Products.findByIdAndDelete(id);
 }
 
 exports.createProduct = async values => {
-  return Product.create(values)
+  return Products.create(values)
 }
 
 

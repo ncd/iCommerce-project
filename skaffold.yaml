@@ -8,6 +8,8 @@ build:
     context: services/product
   - image: icommerce/query-service
     context: services/query
+  - image: icommerce/view-service
+    context: services/view
 deploy:
   kubectl:
     manifests:
@@ -16,3 +18,4 @@ deploy:
     - kubernetes-manifests/service.yaml
     - kubernetes-manifests/product-service.yaml
     - kubernetes-manifests/query-service.yaml
+    - kubernetes-manifests/view-service.yaml

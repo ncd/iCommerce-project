@@ -1,9 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`API test GET / default test 1`] = `"{}"`;
+exports[`API test DELETE /:id test 1`] = `"{\\"name\\":\\"cannon\\"}"`;
 
-exports[`API test GET / with full text seach test 1`] = `"{}"`;
+exports[`API test DELETE /:id test 2`] = `"Product not found"`;
 
-exports[`API test GET /find/:id test 1`] = `"Product not found"`;
+exports[`API test DELETE /:id test 3`] = `"Product not found"`;
 
-exports[`API test GET /ping test 1`] = `"Ping success"`;
+exports[`API test DELETE /:id test 4`] = `"Internal Server Error"`;
+
+exports[`API test GET / default test 1`] = `"{\\"products\\":[{\\"_id\\":\\"0\\",\\"name\\":\\"Macbook air 2018\\",\\"categories\\":[\\"Laptop\\",\\"Electronic\\",\\"Apple\\"],\\"description\\":\\"Macbook new design 2018\\",\\"rating\\":5,\\"originalprice\\":50000,\\"currentprice\\":30000,\\"brand\\":\\"Apple\\",\\"seller\\":\\"FPT\\"},{\\"_id\\":\\"1\\",\\"name\\":\\"HP Notebook 2020\\",\\"categories\\":[\\"Laptop\\",\\"Electronic\\",\\"Device\\"],\\"description\\":\\"Brand new device notebook from HP\\",\\"rating\\":4.5,\\"originalprice\\":45000,\\"currentprice\\":35000,\\"brand\\":\\"HP\\",\\"seller\\":\\"VienThongA\\"},{\\"_id\\":\\"2\\",\\"name\\":\\"Cannon D500\\",\\"categories\\":[\\"Camera\\",\\"Electronic\\",\\"Device\\"],\\"description\\":\\"New camera 2020\\",\\"rating\\":4.5,\\"originalprice\\":40000,\\"currentprice\\":38000,\\"brand\\":\\"Cannon\\",\\"seller\\":\\"FPT\\"}],\\"brands\\":[],\\"ratings\\":[],\\"categories\\":[],\\"sellers\\":[]}"`;
+
+exports[`API test GET / internal error 1`] = `"Internal Server Error"`;
+
+exports[`API test GET / with full text seach test 1`] = `"{\\"products\\":[{\\"_id\\":\\"2\\",\\"name\\":\\"Cannon D500\\",\\"categories\\":[\\"Camera\\",\\"Electronic\\",\\"Device\\"],\\"description\\":\\"New camera 2020\\",\\"rating\\":4.5,\\"originalprice\\":40000,\\"currentprice\\":38000,\\"brand\\":\\"Cannon\\",\\"seller\\":\\"FPT\\"}],\\"brands\\":[],\\"ratings\\":[],\\"categories\\":[],\\"sellers\\":[]}"`;
+
+exports[`API test GET /:id invalid id 1`] = `"Product not found"`;
+
+exports[`API test GET /:id invalid id 2`] = `"Internal Server Error"`;
+
+exports[`API test GET /:id test valid id 1`] = `"{\\"_id\\":\\"1\\",\\"name\\":\\"HP Notebook 2020\\",\\"categories\\":[\\"Laptop\\",\\"Electronic\\",\\"Device\\"],\\"description\\":\\"Brand new device notebook from HP\\",\\"rating\\":4.5,\\"originalprice\\":45000,\\"currentprice\\":35000,\\"brand\\":\\"HP\\",\\"seller\\":\\"VienThongA\\"}"`;
+
+exports[`API test PATCH /:id test 1`] = `"{\\"name\\":\\"cannon\\"}"`;
+
+exports[`API test PATCH /:id test 2`] = `"Product not found"`;
+
+exports[`API test PATCH /:id test 3`] = `"Product not found"`;
+
+exports[`API test PATCH /:id test 4`] = `"Internal Server Error"`;
+
+exports[`API test POST / test 1`] = `"{\\"_id\\":\\"4\\",\\"query\\":\\"cannon\\"}"`;

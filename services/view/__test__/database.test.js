@@ -1,8 +1,9 @@
 'use strict';
-require('mockingoose').default;
 const mongoose = require('mongoose');
 const database = require('../database');
+
 jest.mock('mongoose');
+
 
 describe('Database test', () => {
   test('mongoose first failed test', async () => {
@@ -10,7 +11,7 @@ describe('Database test', () => {
     let consoleOutput = []
     const mockedLog = output => consoleOutput.push(output)
     console.log = mockedLog;
-    jest.setTimeout(15000);
+    jest.setTimeout(12000);
     mongoose.connect.mockImplementation( args => {
       if (count < 1) {
         count++;
@@ -25,4 +26,5 @@ describe('Database test', () => {
     expect(consoleOutput).toContain('Retrying first connect...');
     expect(consoleOutput).toContain('Connected to database');
   });
+
 });

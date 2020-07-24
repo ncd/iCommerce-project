@@ -22,11 +22,25 @@ curl --location --request POST "${hostname}/services/" \
 --data-raw '{
     "name": "queries",
     "host": "query-service.service.svc.cluster.local",
-    "port": 8081
+    "port": 8080
 }'
 
 curl --location --request POST "${hostname}/services/queries/routes" \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "paths": ["/api/queries"]
+}'
+
+curl --location --request POST "${hostname}/services/" \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "views",
+    "host": "view-service.service.svc.cluster.local",
+    "port": 8080
+}'
+
+curl --location --request POST "${hostname}/services/views/routes" \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "paths": ["/api/views"]
 }'

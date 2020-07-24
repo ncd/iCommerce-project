@@ -1,9 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`API test GET / default test 1`] = `""`;
+exports[`API test DELETE /:id test 1`] = `"{\\"querystring\\":\\"cannon\\"}"`;
 
-exports[`API test GET / with full text seach test 1`] = `""`;
+exports[`API test DELETE /:id test 2`] = `"Query not found"`;
+
+exports[`API test DELETE /:id test 3`] = `"Query not found"`;
+
+exports[`API test DELETE /:id test 4`] = `"Internal Server Error"`;
+
+exports[`API test GET / default test 1`] = `"[{\\"_id\\":\\"0\\",\\"querystring\\":\\"macbook\\",\\"rating\\":3.5,\\"minprice\\":20000,\\"maxprice\\":30000,\\"sortby\\":\\"categories\\",\\"sorttype\\":\\"asc\\"},{\\"_id\\":\\"1\\",\\"querystring\\":\\"laptop\\",\\"category\\":\\"Electronic\\",\\"rating\\":4,\\"minprice\\":22000,\\"maxprice\\":50000,\\"brand\\":\\"Apple\\"},{\\"_id\\":\\"2\\",\\"querystring\\":\\"camera\\",\\"rating\\":4,\\"minprice\\":22000,\\"maxprice\\":50000,\\"brand\\":\\"Cannon\\",\\"seller\\":\\"VienThongA\\",\\"sortby\\":\\"seller\\",\\"sorttype\\":\\"desc\\"},{\\"_id\\":\\"3\\",\\"querystring\\":\\"Cannon\\"}]"`;
+
+exports[`API test GET / with full text seach test 1`] = `"[{\\"_id\\":\\"3\\",\\"querystring\\":\\"Cannon\\"}]"`;
+
+exports[`API test GET / with full text seach test 2`] = `"Internal Server Error"`;
 
 exports[`API test GET /find/:id test 1`] = `"Query not found"`;
 
-exports[`API test GET /ping test 1`] = `"Ping success"`;
+exports[`API test GET /find/:id test 2`] = `"[{\\"_id\\":\\"1\\",\\"querystring\\":\\"laptop\\",\\"category\\":\\"Electronic\\",\\"rating\\":4,\\"minprice\\":22000,\\"maxprice\\":50000,\\"brand\\":\\"Apple\\"}]"`;
+
+exports[`API test GET /find/:id test 3`] = `"Internal Server Error"`;
+
+exports[`API test PATCH /:id test 1`] = `"{\\"querystring\\":\\"cannon\\"}"`;
+
+exports[`API test PATCH /:id test 2`] = `"Query not found"`;
+
+exports[`API test PATCH /:id test 3`] = `"Query not found"`;
+
+exports[`API test PATCH /:id test 4`] = `"Internal Server Error"`;
+
+exports[`API test POST / test 1`] = `"{\\"_id\\":\\"4\\",\\"querystring\\":\\"cannon\\"}"`;

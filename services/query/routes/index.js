@@ -7,8 +7,9 @@ const controller = require('../controllers');
 module.exports = () => {
   let router = Router().loadMethods();
   router.get('/', controller.getQueries);
-  router.get('/find/:id', controller.getQuery);
+  router.get('/:id', controller.getQuery);
+  router.patch('/:id', koaBody(), controller.updateQuery);
+  router.delete('/:id', controller.deleteQuery);
   router.post('/', koaBody(), controller.createQuery);
-  router.get('/ping', controller.ping);
   return router.middleware();
 };

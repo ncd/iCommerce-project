@@ -7,8 +7,10 @@ const controller = require('../controllers');
 module.exports = () => {
   let router = Router().loadMethods();
   router.get('/', controller.getProducts);
-  router.get('/find/:id', controller.getProduct);
+  router.get('/:id', controller.getProduct);
+  router.patch('/:id', koaBody(), controller.updateProduct);
+  router.delete('/:id', controller.deleteProduct);
   router.post('/', koaBody(), controller.createProduct);
-  router.get('/ping', controller.ping);
+
   return router.middleware();
 };
