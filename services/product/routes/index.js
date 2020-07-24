@@ -1,16 +1,16 @@
-"use strict";
-const koaBody = require('koa-body');
-const Router = require('koa-better-router');
+'use strict'
+const koaBody = require('koa-body')
+const Router = require('koa-better-router')
 
-const controller = require('../controllers');
+const controller = require('../controllers')
 
 module.exports = () => {
-  let router = Router().loadMethods();
-  router.get('/', controller.getProducts);
-  router.get('/:id', controller.getProduct);
-  router.patch('/:id', koaBody(), controller.updateProduct);
-  router.delete('/:id', controller.deleteProduct);
-  router.post('/', koaBody(), controller.createProduct);
+  const router = Router().loadMethods()
+  router.get('/', controller.getProducts)
+  router.get('/:id', controller.getProduct)
+  router.patch('/:id', koaBody(), controller.updateProduct)
+  router.delete('/:id', controller.deleteProduct)
+  router.post('/', koaBody(), controller.createProduct)
 
-  return router.middleware();
-};
+  return router.middleware()
+}

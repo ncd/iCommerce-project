@@ -1,7 +1,7 @@
-'use strict';
-const controllers = require('../controllers');
-const services = require('../services');
-jest.mock('../services');
+'use strict'
+const controllers = require('../controllers')
+const services = require('../services')
+jest.mock('../services')
 
 const _data = [
   {
@@ -37,109 +37,114 @@ const _data = [
     brand: 'Cannon',
     seller: 'FPT'
   }
-];
+]
 services.getProducts.mockImplementation(async query => {
-  if ( query.query === 'hp') {
-    return [_data[1]];
+  if (query.query === 'hp') {
+    return [_data[1]]
   }
-  if ( query.query === 'Cannon' ) {
-    return [_data[2]];
+  if (query.query === 'Cannon') {
+    return [_data[2]]
   }
-  if (query.brand === 'Cannon' ) {
-    return [_data[2]];
+  if (query.brand === 'Cannon') {
+    return [_data[2]]
   }
   if (query.category === 'Electronic') {
-    return [_data[0], _data[1], _data[2]];
+    return [_data[0], _data[1], _data[2]]
   }
   if (query.rating === 4) {
-    return [_data[0], _data[1], _data[2]];
+    return [_data[0], _data[1], _data[2]]
   }
   if (query.price === '20000:30000') {
-    return [_data[0]];
+    return [_data[0]]
   }
-  if (query.sort === 'seller:asc' ) {
-    return [_data[0], _data[2], _data[1]];
+  if (query.sort === 'seller:asc') {
+    return [_data[0], _data[2], _data[1]]
   }
-  return [];
-});
-services.getProduct.mockImplementation(id => {
-  return _data[parseInt(id)];
+  return []
 })
+
+services.getProduct.mockImplementation(id => {
+  return _data[parseInt(id)]
+})
+
 services.createProduct.mockImplementation(value => {
   if (value.simulate === 'ok') {
-    value.id = '1';
-    delete value.simulate;
+    value.id = '1'
+    delete value.simulate
   }
   if (value.simulate === 'failed') {
-    value = null;
+    value = null
   }
-  return value;
-});
+  return value
+})
+
 describe('Controllers test', () => {
   test('getProducts test', async () => {
-    let ctx = {
+    const ctx = {
       request: {},
       params: {},
       body: '',
       throw: jest.fn(() => {})
-    };
-    let generateRequest = content => {
-      ctx.request.query = content;
-      return ctx;
-    };
-    await controllers.getProducts(generateRequest({ query: 'hp' }));
-    expect(ctx.body).toMatchSnapshot();
-    await controllers.getProducts(generateRequest({ brand: 'Cannon'}));
-    expect(ctx.body).toMatchSnapshot();
-    await controllers.getProducts(generateRequest({ category: 'Electronic' }));
-    expect(ctx.body).toMatchSnapshot();
-    await controllers.getProducts(generateRequest({ rating: 4 }));
-    expect(ctx.body).toMatchSnapshot();
-    await controllers.getProducts(generateRequest({ price: '20000:30000' }));
-    expect(ctx.body).toMatchSnapshot();
-    await controllers.getProducts(generateRequest({ sort: 'seller:asc'}));
-    expect(ctx.body).toMatchSnapshot();
-  }); 
+    }
+    const generateRequest = content => {
+      ctx.request.query = content
+      return ctx
+    }
+    await controllers.getProducts(generateRequest({ query: 'hp' }))
+    expect(ctx.body).toMatchSnapshot()
+    await controllers.getProducts(generateRequest({ brand: 'Cannon' }))
+    expect(ctx.body).toMatchSnapshot()
+    await controllers.getProducts(generateRequest({ category: 'Electronic' }))
+    expect(ctx.body).toMatchSnapshot()
+    await controllers.getProducts(generateRequest({ rating: 4 }))
+    expect(ctx.body).toMatchSnapshot()
+    await controllers.getProducts(generateRequest({ price: '20000:30000' }))
+    expect(ctx.body).toMatchSnapshot()
+    await controllers.getProducts(generateRequest({ sort: 'seller:asc' }))
+    expect(ctx.body).toMatchSnapshot()
+  })
+
   test('getProduct test', async () => {
-    let ctx = {
+    const ctx = {
       params: {},
       request: {},
       body: '',
       throw: jest.fn(() => {})
-    };
-    let addParams = id => {
-      ctx.params.id = id;
-      return ctx;
-    };
-    await controllers.getProduct(addParams(1));
-    expect(ctx.body).toMatchSnapshot();
-    await controllers.getProduct(addParams(5));
-    expect(ctx.throw).toHaveBeenCalledTimes(1);
-  });
+    }
+    const addParams = id => {
+      ctx.params.id = id
+      return ctx
+    }
+    await controllers.getProduct(addParams(1))
+    expect(ctx.body).toMatchSnapshot()
+    await controllers.getProduct(addParams(5))
+    expect(ctx.throw).toHaveBeenCalledTimes(1)
+  })
+
   test('createProduct test', async () => {
-    let ctx = {
+    const ctx = {
       params: {},
       request: {},
       body: '',
       throw: jest.fn(() => {})
-    };
-    let data = {
+    }
+    const data = {
       name: 'HP Notebook 2020',
       categories: ['Laptop', 'Electronic', 'Device'],
       description: 'Brand new device notebook from HP',
       rating: 4.5,
       originalprice: 45000
-    };
-    let addBody = (body, simulate) => {
-      ctx.request.body = body;
-      ctx.request.body.simulate = simulate;
-      return ctx;
-    };
-    await controllers.createProduct(addBody(data, 'ok'));
-    expect(ctx.body).toMatchSnapshot();
-    await controllers.createProduct(addBody(data, 'failed'));
-    expect(ctx.throw).toHaveBeenCalled();
-    await controllers.createProduct(addBody(data, 'xxxx'));
-    expect(ctx.throw).toHaveBeenCalled();
-  });
-});
+    }
+    const addBody = (body, simulate) => {
+      ctx.request.body = body
+      ctx.request.body.simulate = simulate
+      return ctx
+    }
+    await controllers.createProduct(addBody(data, 'ok'))
+    expect(ctx.body).toMatchSnapshot()
+    await controllers.createProduct(addBody(data, 'failed'))
+    expect(ctx.throw).toHaveBeenCalled()
+    await controllers.createProduct(addBody(data, 'xxxx'))
+    expect(ctx.throw).toHaveBeenCalled()
+  })
+})

@@ -1,20 +1,20 @@
-"use strict";
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+'use strict'
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
 const schema = new Schema({
-  queryString: String,
+  querystring: String,
   categories: String,
   rating: Number,
-  minPrice: Number,
-  maxPrice: Number,
+  minprice: Number,
+  maxprice: Number,
   brand: String,
   seller: String,
-  sortBy: String,
-  sortType: String,
+  sortby: String,
+  sorttype: String
 }, {
   timestamps: true
-});
+})
 
 // schema.index({'$**': 'text'});
-module.exports = mongoose.model('queries', schema);
+module.exports = mongoose.model('queries', schema)
