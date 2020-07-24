@@ -7,8 +7,8 @@ const schema = new Schema({
   categories: [String],
   description: String,
   rating: Number,
-  originalPrice: Number,
-  currentPrice: Number,
+  originalprice: Number,
+  currentprice: Number,
   brand: String,
   seller: String
 }, {
