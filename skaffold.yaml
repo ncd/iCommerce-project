@@ -13,7 +13,7 @@ build:
 deploy:
   kubectl:
     manifests:
-    - kubernetes-manifests/kong.yaml
+    - kubernetes-manifests/kong-dbless.yaml
     - kubernetes-manifests/mongodb.yaml
     - kubernetes-manifests/service.yaml
     - kubernetes-manifests/product-service.yaml
