@@ -1,5 +1,6 @@
 'use strict'
 const mongoose = require('mongoose')
+const logger = require('../logger')
 const Queries = require('../models/queries')
 
 exports.getQueries = async (query) => {
@@ -31,11 +32,13 @@ exports.getQueries = async (query) => {
   if (query.query) {
     search.$text = { $search: query.query }
   }
+  logger.info(`searchQueries: query ${JSON.stringify(query)}`)
   return Queries.find(search)
 }
 
 exports.getQuery = async id => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
+    logger.info(`getQuery: invalid ObjectId ${id}`)
     return null
   }
   return Queries.findById(id)
@@ -43,10 +46,13 @@ exports.getQuery = async id => {
 
 exports.updateQuery = async (id, values) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
+    logger.info(`updateQuery: invalid ObjectId ${id}`)
     return null
   }
+  logger.info(`updateQuery: query to update ${JSON.stringify(values)}`)
   const updatedQuery = await Queries.findByIdAndUpdate(id, values)
   if (updatedQuery) {
+    logger.info(`updateQuery: save updatedQuery`)
     await updatedQuery.save()
   }
   return updatedQuery
@@ -54,12 +60,13 @@ exports.updateQuery = async (id, values) => {
 
 exports.deleteQuery = async id => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
+    logger.info(`deleteQuery: invalid ObjectId ${id}`)
     return null
   }
   return Queries.findByIdAndDelete(id)
 }
 
 exports.createQuery = async values => {
-  var query = new Queries(values)
-  return query.save()
+  logger.info(`createQuery: input values ${JSON.stringify(values)}`)
+  return Queries.create(values)
 }

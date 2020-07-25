@@ -2,9 +2,9 @@
 
 exports[`API test DELETE /:id test 1`] = `"{\\"productid\\":\\"123456\\"}"`;
 
-exports[`API test DELETE /:id test 2`] = `"Query not found"`;
+exports[`API test DELETE /:id test 2`] = `"View not found"`;
 
-exports[`API test DELETE /:id test 3`] = `"Query not found"`;
+exports[`API test DELETE /:id test 3`] = `"View not found"`;
 
 exports[`API test DELETE /:id test 4`] = `"Internal Server Error"`;
 
@@ -14,7 +14,7 @@ exports[`API test GET / internal error 1`] = `"Internal Server Error"`;
 
 exports[`API test GET / with productid 1`] = `"[{\\"_id\\":\\"0\\",\\"productid\\":\\"1234567\\"}]"`;
 
-exports[`API test GET /:id invalid id 1`] = `"Query not found"`;
+exports[`API test GET /:id invalid id 1`] = `"View not found"`;
 
 exports[`API test GET /:id invalid id 2`] = `"Internal Server Error"`;
 

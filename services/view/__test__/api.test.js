@@ -36,9 +36,9 @@ describe('API test', () => {
   })
 
   test('GET / with productid', async () => {
-    modelsMock.expects('find').withArgs({ productid: '1234566' })
+    modelsMock.expects('find').withArgs({ productid: '1234567' })
       .resolves([_data[0]])
-    const response = await request(server).get('/?productid=1234566')
+    const response = await request(server).get('/?productid=1234567')
     expect(response.status).toEqual(200)
     expect(response.text).toMatchSnapshot()
   })

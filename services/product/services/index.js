@@ -2,6 +2,7 @@
 const mongoose = require('mongoose')
 const axios = require('axios')
 const Products = require('../models/products')
+const logger = require('../logger')
 const KONG_PROXY_HOST = process.env.KONG_PROXY_HOST || 'kong-proxy.kong.svc.cluster.local'
 const KONG_PROXY_PORT = process.env.KONG_PROXY_PORT || 80
 
@@ -15,6 +16,7 @@ exports.logQuery = async query => {
   }
   if (query.price) {
     const prices = query.price.split(':')
+    logger.info(`logQuery: prices info ${prices}`)
     if (prices[0]) {
       storeQuery.minprice = prices[0]
     }
@@ -24,6 +26,7 @@ exports.logQuery = async query => {
   }
   if (query.sort) {
     const sortItems = query.sort.split(':')
+    logger.info(`logQuery: sortItems info ${sortItems}`)
     if (sortItems[0]) {
       storeQuery.sortby = sortItems[0]
       if (sortItems[1]) {
@@ -31,6 +34,7 @@ exports.logQuery = async query => {
       }
     }
   }
+  logger.info(`logQuery: request body ${JSON.stringify(storeQuery)}`)
   return axios.post(`http://${KONG_PROXY_HOST}:${KONG_PROXY_PORT}/api/queries`, storeQuery)
 }
 
@@ -38,6 +42,7 @@ exports.logView = async id => {
   const product = {
     productid: id
   }
+  logger.info(`logView: request body ${JSON.stringify(product)}`)
   return axios.post(`http://${KONG_PROXY_HOST}:${KONG_PROXY_PORT}/api/views`, product)
 }
 
@@ -60,6 +65,7 @@ exports.getFieldCounts = async (query, field) => {
     }
   })
 
+  logger.info(`getFieldCounts: aggregateOpts ${JSON.stringify(aggregateOpts)}`)
   return Products.aggregate(aggregateOpts)
 }
 
@@ -82,6 +88,7 @@ exports.getProducts = async query => {
   }
   if (query.price) {
     const prices = query.price.split(':')
+    logger.info(`getProduct: Prices info ${prices}`)
     search.currentprice = {}
     if (prices[0]) {
       search.currentprice.$gt = parseInt(prices[0])
@@ -90,8 +97,10 @@ exports.getProducts = async query => {
       search.currentprice.$lt = parseInt(prices[1])
     }
   }
+  logger.info(`getProduct: search query ${JSON.stringify(search)}`)
   if (query.sort) {
     const sortItems = query.sort.split(':')
+    logger.info(`getProducts: Sort info ${sortItems}`)
     if (sortItems[0]) {
       if (sortItems[0] === 'price') {
         sortItems[0] = 'currentprice'
@@ -102,6 +111,7 @@ exports.getProducts = async query => {
       } else {
         sort = `'${sortItems[0]}'`
       }
+      logger.info(`getProducts: Sort query ${sort}`)
       return Products.find(search).sort(sort)
     }
   } else {
@@ -111,6 +121,7 @@ exports.getProducts = async query => {
 
 exports.getProduct = async id => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
+    logger.info(`getProduct: invalid ObjectId ${id}`)
     return null
   }
   return Products.findById(id)
@@ -118,10 +129,12 @@ exports.getProduct = async id => {
 
 exports.updateProduct = async (id, product) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
+    logger.info(`updateProduct: invalid ObjectId ${id}`)
     return null
   }
   const updatedProduct = await Products.findByIdAndUpdate(id, product)
   if (updatedProduct) {
+    logger.info(`updateProduct: result ${JSON.stringify(updatedProduct)}`)
     await updatedProduct.save()
   }
   return updatedProduct
@@ -129,11 +142,13 @@ exports.updateProduct = async (id, product) => {
 
 exports.deleteProduct = async id => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
+    logger.info(`deleteProduct: invalid ObjectId ${id}`)
     return null
   }
   return Products.findByIdAndDelete(id)
 }
 
 exports.createProduct = async values => {
+  logger.info(`createProduct: value ${JSON.stringify(values)}`)
   return Products.create(values)
 }

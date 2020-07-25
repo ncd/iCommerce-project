@@ -1,6 +1,8 @@
 'use strict'
 const Koa = require('koa')
-const logger = require('koa-logger')
+const logger = require('./logger')
+const loggerMiddleware = require('koa-logger-middleware')
+const parameter = require('koa-parameter')
 const routes = require('./routes')
 const database = require('./database')
 
@@ -18,7 +20,7 @@ const PORT = process.env.PORT || 8080
 
 // Load the routes
 app.use(routes())
-app.use(logger())
+app.use(loggerMiddleware({logger: logger}))
 
 // Start the server
 const server = app.listen(PORT, () => {

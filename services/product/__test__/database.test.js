@@ -18,7 +18,6 @@ describe('Database test', () => {
       }
     })
     await database({})
-    expect(consoleOutput).toContain('Retrying first connect...')
-    expect(consoleOutput).toContain('Connected to database')
+    expect(mongoose.connect).toHaveBeenCalledTimes(2)
   })
 })

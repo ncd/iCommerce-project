@@ -1,7 +1,8 @@
 'use strict'
 const services = require('../services')
 const models = require('../models/queries')
-jest.mock('../models/queries')
+const sinon = require('sinon')
+require('sinon-mongoose')
 
 const _data = [
   {
@@ -38,49 +39,24 @@ const _data = [
     querystring: 'Cannon'
   }
 ]
-models.find.mockImplementation(query => {
-  var test = { $text: { $search: 'hp' } }
-
-  if (JSON.stringify(query) === JSON.stringify({ $text: { $search: 'hp' } })) {
-    return []
-  }
-  if (JSON.stringify(query) === JSON.stringify({ $text: { $search: 'Cannon' } })) {
-    return [_data[3]]
-  }
-  if (query.brand === 'Cannon') {
-    return [_data[2]]
-  }
-  if (query.category === 'Electronic') {
-    return [_data[1]]
-  }
-  if (query.rating === 4) {
-    return [_data[1], _data[2]]
-  }
-  if (query.minprice === 20000 && query.maxprice === 30000) {
-    return [_data[0]]
-  }
-  if (query.sortby === 'seller' && query.sorttype === 'asc') {
-    return []
-  }
-  return []
-})
-
-models.findById.mockImplementation(id => {
-  return _data[parseInt(id)]
-})
-
-models.create.mockImplementation(query => {
-  if (query.simlate === 'ok') {
-    query._id = 'id'
-    delete query.simulate
-  } else {
-    query = null
-  }
-  return query
-})
+const modelsMock = sinon.mock(models)
 
 describe('Service test', () => {
   test('getQueries test', async () => {
+    modelsMock.expects('find').withArgs({ $text: { $search: 'hp' } })
+      .resolves([])
+    modelsMock.expects('find').withArgs({ $text: { $search: 'Cannon' } })
+      .resolves([_data[3]])
+    modelsMock.expects('find').withArgs({ brand: 'Cannon'})
+      .resolves([_data[2]])
+    modelsMock.expects('find').withArgs({ category: 'Electronic'})
+      .resolves([_data[1]])
+    modelsMock.expects('find').withArgs({ rating: 4})
+      .resolves([_data[1], _data[2]])
+    modelsMock.expects('find').withArgs({ minprice: 20000, maxprice: 30000})
+      .resolves([_data[0]])
+    modelsMock.expects('find').withArgs({ sortby: 'seller', sorttype: 'asc'})
+      .resolves([])
     let result = await services.getQueries({ query: 'hp' })
     expect(result).toMatchSnapshot()
     result = await services.getQueries({ brand: 'Cannon' })
@@ -96,9 +72,13 @@ describe('Service test', () => {
   })
 
   test('getQuery test', async () => {
-    let result = await services.getQuery(1)
+    modelsMock.expects('findById').withArgs('1')
+      .resolves(_data[1])
+    modelsMock.expects('findById').withArgs('100')
+      .resolves(null)
+    let result = await services.getQuery('1')
     expect(result).toMatchSnapshot()
-    result = await services.getQuery(100)
+    result = await services.getQuery('100')
     expect(result).toMatchSnapshot()
   })
 
@@ -109,10 +89,14 @@ describe('Service test', () => {
       minprice: 22000,
       maxprice: 50000
     }
+    modelsMock.expects('create').withArgs({ maxprice: 50000, minprice: 22000, querystring: "camera", rating: 4, simulate: "ok" })
+      .resolves({...data, _id: 'id'})
+    modelsMock.expects('create').withArgs({ maxprice: 50000, minprice: 22000, querystring: "camera", rating: 4, simulate: "failed" })
+      .resolves(null)
     data.simulate = 'ok'
     let result = await services.createQuery(data)
     expect(result).toMatchSnapshot()
-    data.simlate = 'failed'
+    data.simulate = 'failed'
     result = await services.createQuery(data)
     expect(result).toMatchSnapshot()
   })

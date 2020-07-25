@@ -1,6 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Service test createQuery test 1`] = `null`;
+exports[`Service test createQuery test 1`] = `
+Object {
+  "_id": "id",
+  "maxprice": 50000,
+  "minprice": 22000,
+  "querystring": "camera",
+  "rating": 4,
+}
+`;
 
 exports[`Service test createQuery test 2`] = `null`;
 
@@ -77,16 +85,6 @@ Array [
 
 exports[`Service test getQueries test 6`] = `Array []`;
 
-exports[`Service test getQuery test 1`] = `
-Object {
-  "_id": "1",
-  "brand": "Apple",
-  "category": "Electronic",
-  "maxprice": 50000,
-  "minprice": 22000,
-  "querystring": "laptop",
-  "rating": 4,
-}
-`;
+exports[`Service test getQuery test 1`] = `null`;
 
-exports[`Service test getQuery test 2`] = `undefined`;
+exports[`Service test getQuery test 2`] = `null`;
